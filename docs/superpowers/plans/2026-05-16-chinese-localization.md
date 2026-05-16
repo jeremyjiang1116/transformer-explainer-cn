@@ -12,6 +12,7 @@
 
 ## File Structure
 
+- Modify `package.json` and `package-lock.json`: restore a buildable baseline by aligning Vite with `@sveltejs/vite-plugin-svelte`.
 - Create `src/utils/i18n.ts`: Chinese UI strings and glossary constants for short labels reused by Svelte components.
 - Create `scripts/check-localization.mjs`: static text assertions for required Chinese strings and banned original English strings.
 - Modify `package.json`: add `localization:check`.
@@ -34,6 +35,53 @@
   - selected `src/components/Popovers/*.svelte`
 - Modify `src/utils/textbookPages.ts`: translate guided tutorial cards while preserving `id`, selectors, and analytics event names.
 - Modify `src/components/article/Article.svelte`: translate long explanatory article while preserving links, formulas, component imports, classes, and IDs.
+
+## Task 0: Restore Build Baseline
+
+**Files:**
+- Modify: `package.json`
+- Modify: `package-lock.json`
+
+- [ ] **Step 1: Verify the current build fails from dependency incompatibility**
+
+Run: `PATH=/Users/jiangxu/.nvm/versions/node/v22.14.0/bin:$PATH npm run build`
+
+Expected: FAIL with `Cannot read properties of undefined (reading 'config')` from `@sveltejs/vite-plugin-svelte`.
+
+- [ ] **Step 2: Update Vite to the lowest compatible major range**
+
+Run:
+
+```bash
+PATH=/Users/jiangxu/.nvm/versions/node/v22.14.0/bin:$PATH npm install vite@^6.3.0 --save-dev --legacy-peer-deps --registry=https://registry.npmjs.org
+```
+
+Expected: `package.json` changes `vite` from `^5.4.21` to `^6.3.0`, and `package-lock.json` resolves a Vite 6 release compatible with `@sveltejs/vite-plugin-svelte@6.2.4`.
+
+- [ ] **Step 3: Verify package install consistency**
+
+Run:
+
+```bash
+PATH=/Users/jiangxu/.nvm/versions/node/v22.14.0/bin:$PATH npm ci --legacy-peer-deps --registry=https://registry.npmjs.org
+```
+
+Expected: install completes successfully.
+
+- [ ] **Step 4: Verify build baseline**
+
+Run: `PATH=/Users/jiangxu/.nvm/versions/node/v22.14.0/bin:$PATH npm run build`
+
+Expected: PASS or, if unrelated pre-existing Svelte/TypeScript errors remain, the Vite plugin `reading 'config'` crash must be gone and the new failure must be documented.
+
+- [ ] **Step 5: Commit**
+
+Run:
+
+```bash
+git add --sparse package.json package-lock.json
+git commit -m "fix: align vite with svelte plugin"
+```
 
 ## Task 1: Localization Guard And Metadata
 
