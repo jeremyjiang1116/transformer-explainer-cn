@@ -77,4 +77,28 @@ assertExcludes('src/utils/textbookPages.ts', 'Transformer Architecture');
 assertExcludes('src/utils/textbookPages.ts', "Transformers aren't magic");
 assertExcludes('src/utils/textbookPages.ts', 'What is the most probable next word');
 
+for (const expected of [
+	'<h1>什么是 Transformer？</h1>',
+	'<h1>Transformer 架构</h1>',
+	'<h2>Embedding</h2>',
+	'<h2>Transformer Block</h2>',
+	'<h3>Multi-Head Self-Attention</h3>',
+	'<h3>MLP：Multi-Layer Perceptron</h3>',
+	'<h2>输出概率</h2>',
+	'<h2>辅助架构特性</h2>',
+	'<h1>交互功能</h1>',
+	'<h2>视频教程</h2>',
+	'<h2>Transformer Explainer 是如何实现的？</h2>',
+	'<h2>谁开发了 Transformer Explainer？</h2>'
+]) {
+	assertIncludes('src/components/article/Article.svelte', expected);
+}
+
+assertExcludes('src/components/article/Article.svelte', '<h1>What is a Transformer?</h1>');
+assertExcludes('src/components/article/Article.svelte', '<h1>Interactive Features</h1>');
+assertExcludes('src/components/article/Article.svelte', '<h2>Output Probabilities</h2>');
+assertExcludes('src/components/article/Article.svelte', 'and even');
+assertExcludes('src/components/article/Article.svelte', 'This expansion step allows');
+assertExcludes('src/components/article/Article.svelte', 'Transformer Explainer was created by');
+
 console.log('Localization checks passed.');
