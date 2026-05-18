@@ -43,4 +43,38 @@ assertIncludes('src/components/LinearSoftmax.svelte', '输出概率');
 assertIncludes('src/components/SubsequentBlocks.svelte', '个相同的');
 assertIncludes('src/components/Operation.svelte', 'Layer Normalization');
 
+const textbook = read('src/utils/textbookPages.ts');
+for (const expected of [
+	"title: '什么是 Transformer？'",
+	"title: 'Transformer 如何工作？'",
+	"title: 'Transformer 架构'",
+	"title: 'Embedding'",
+	"title: 'Token Embedding'",
+	"title: 'Positional Encoding'",
+	"title: '重复堆叠的 Transformer Blocks'",
+	"title: '多头自注意力（Multi-Head Self-Attention）'",
+	"title: 'Query、Key、Value'",
+	"title: 'Multi-head'",
+	"title: 'Masked Self-Attention'",
+	"title: 'Attention 输出与拼接'",
+	"title: 'MLP（Multi-Layer Perceptron）'",
+	"title: '输出 Logit'",
+	"title: '输出概率'",
+	"title: 'Temperature'",
+	"title: 'Sampling 策略'",
+	"title: '残差连接（Residual Connection）'",
+	"title: 'Layer Normalization'",
+	"title: 'Dropout'"
+]) {
+	if (!textbook.includes(expected)) {
+		throw new Error(`src/utils/textbookPages.ts should include: ${expected}`);
+	}
+}
+
+assertExcludes('src/utils/textbookPages.ts', 'What is Transformer?');
+assertExcludes('src/utils/textbookPages.ts', 'How Transformers Work?');
+assertExcludes('src/utils/textbookPages.ts', 'Transformer Architecture');
+assertExcludes('src/utils/textbookPages.ts', "Transformers aren't magic");
+assertExcludes('src/utils/textbookPages.ts', 'What is the most probable next word');
+
 console.log('Localization checks passed.');
